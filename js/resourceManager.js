@@ -19,8 +19,8 @@ export class ResourceManager {
 
             this.resources.push(
                 new Resource(
-                    (Math.random()-0.5)*7000,
-                    (Math.random()-0.5)*7000,
+                    (Math.random()-0.5)*2000,
+                    (Math.random()-0.5)*2000,
                     "biomass"
                 )
             );

@@ -1,3 +1,9 @@
+import {
+    RESOURCE_RADIUS,
+    RESOURCE_PICKUP_DISTANCE
+} from "./constants.js";
+
+
 export class Resource {
 
     constructor(x, y, type) {
@@ -7,7 +13,7 @@ export class Resource {
 
         this.baseY = y;
 
-        this.radius = 18;
+        this.radius = RESOURCE_RADIUS;
 
         this.type = type;
 
@@ -33,6 +39,9 @@ export class Resource {
 
         let color;
 
+        const pulse = Math.sin(this.time * 3) * 2;
+const glowRadius = this.radius + 8 + pulse;
+
         switch(this.type){
 
             case "biomass":
@@ -49,17 +58,92 @@ export class Resource {
 
         }
 
-        // Glow
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius + 8, 0, Math.PI * 2);
-        ctx.fillStyle = color + "33";
-        ctx.fill();
+        // Outer glow
+ctx.beginPath();
+ctx.arc(
+    this.x,
+    this.y,
+    glowRadius,
+    0,
+    Math.PI * 2
+);
+
+ctx.fillStyle = color + "22";
+ctx.fill();
+
+// Inner glow
+ctx.beginPath();
+ctx.arc(
+    this.x,
+    this.y,
+    this.radius + pulse * 0.4,
+    0,
+    Math.PI * 2
+);
+
+ctx.fillStyle = color + "66";
+ctx.fill();
 
         // Main body
+       ctx.fillStyle = color;
+
+switch (this.type) {
+
+    case "biomass":
+
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = color;
         ctx.fill();
+
+        break;
+
+    case "crystal":
+
+        ctx.beginPath();
+
+        ctx.moveTo(this.x, this.y - this.radius);
+
+        ctx.lineTo(this.x + this.radius * 0.8, this.y);
+
+        ctx.lineTo(this.x, this.y + this.radius);
+
+        ctx.lineTo(this.x - this.radius * 0.8, this.y);
+
+        ctx.closePath();
+
+        ctx.fill();
+
+        break;
+
+    case "energy":
+
+        ctx.beginPath();
+        ctx.arc(
+            this.x,
+            this.y,
+            this.radius * 0.8 + pulse,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+
+        break;
+
+}
+ctx.beginPath();
+
+ctx.arc(
+    this.x,
+    this.y,
+    5,
+    0,
+    Math.PI * 2
+);
+
+ctx.fillStyle = "#ffffff";
+
+ctx.fill();
 
     }
 
@@ -68,7 +152,7 @@ export class Resource {
         const dx = player.x - this.x;
         const dy = player.y - this.y;
 
-        return Math.sqrt(dx*dx + dy*dy) < 45;
+        return Math.sqrt(dx * dx + dy * dy) < RESOURCE_PICKUP_DISTANCE;
 
     }
 

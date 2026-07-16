@@ -1,11 +1,32 @@
-export class World{
 
-    constructor(){
+import { WORLD_SIZE } from "./constants.js";
 
-        this.size = 8000;
+export class World {
+
+    constructor() {
+
+        this.size = WORLD_SIZE;
 
         this.objects=[];
         this.stars = [];
+        this.spores = [];
+
+for (let i = 0; i < 400; i++) {
+
+    this.spores.push({
+
+        x: (Math.random() - 0.5) * this.size * 2,
+        y: (Math.random() - 0.5) * this.size * 2,
+
+        radius: Math.random() * 3 + 1,
+
+        speed: 0.2 + Math.random() * 0.4,
+
+        offset: Math.random() * Math.PI * 2
+
+    });
+
+}
 
 for (let i = 0; i < 1000; i++) {
 
@@ -87,6 +108,30 @@ for (const star of this.stars) {
         }
 
     }
+    // Floating alien spores
+
+ctx.fillStyle = "rgba(180,255,210,0.18)";
+
+const t = performance.now() * 0.001;
+
+for (const spore of this.spores) {
+
+    const x = spore.x + Math.sin(t * spore.speed + spore.offset) * 20;
+    const y = spore.y + Math.cos(t * spore.speed + spore.offset) * 20;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        x,
+        y,
+        spore.radius,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+
+}
 
     // Draw resources/objects
     for (const obj of this.objects) {

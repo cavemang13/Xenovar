@@ -12,12 +12,14 @@ export class Xenovar {
         this.maxXP = 10;
 
         this.time = 0;
+        this.rotation = 0;
 
     }
 
     update() {
 
         this.time += 0.03;
+        this.rotation += 0.01;
 
     }
 
@@ -25,21 +27,75 @@ export class Xenovar {
 
         const pulse = Math.sin(this.time) * 5;
 
-        // Outer glow
+        // Outer aura
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius + 15 + pulse, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(150,0,255,0.25)";
+        ctx.arc(
+            this.x,
+            this.y,
+            this.radius + 22 + pulse,
+            0,
+            Math.PI * 2
+        );
+        ctx.fillStyle = "rgba(170,80,255,0.12)";
         ctx.fill();
 
-        // Main core
+        // Rotating organic ring
+        ctx.save();
+
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+
+        ctx.strokeStyle = "#9d5dff";
+        ctx.lineWidth = 6;
+
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius + pulse, 0, Math.PI * 2);
-        ctx.fillStyle = "#8b3dff";
+        ctx.ellipse(
+            0,
+            0,
+            this.radius + 12,
+            this.radius - 8,
+            0,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.stroke();
+
+        ctx.restore();
+
+        // Main body
+        ctx.beginPath();
+        ctx.arc(
+            this.x,
+            this.y,
+            this.radius + pulse,
+            0,
+            Math.PI * 2
+        );
+        ctx.fillStyle = "#6e2eff";
         ctx.fill();
 
-        // Center
+        // Inner membrane
         ctx.beginPath();
-        ctx.arc(this.x, this.y, 18, 0, Math.PI * 2);
+        ctx.arc(
+            this.x,
+            this.y,
+            this.radius * 0.65,
+            0,
+            Math.PI * 2
+        );
+        ctx.fillStyle = "#9f72ff";
+        ctx.fill();
+
+        // Energy core
+        ctx.beginPath();
+        ctx.arc(
+            this.x,
+            this.y,
+            20 + pulse * 0.3,
+            0,
+            Math.PI * 2
+        );
         ctx.fillStyle = "#ffffff";
         ctx.fill();
 
