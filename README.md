@@ -4,6 +4,11 @@ An alien-themed incremental automation game built with **HTML5 Canvas** and **Ja
 
 In **Xenovar**, you control an explorer tasked with growing a mysterious living organism known as the **Xenovar Core**. Gather resources, expand the hive, unlock drones, and evolve the Xenovar into a powerful alien civilization.
 
+## Development
+
+Xenovar is being developed as a long-term indie game project using JavaScript and HTML5 Canvas.
+
+The project is designed and directed by the author, with AI-assisted programming used to help with code generation, refactoring, debugging, and development planning. All gameplay systems, features, and project direction are chosen and integrated by the developer.
 ---
 
 ## Current Features (Version 0.2)
