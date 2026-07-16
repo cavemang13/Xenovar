@@ -1,4 +1,4 @@
-export class HiveCore {
+export class Xenovar {
 
     constructor() {
 

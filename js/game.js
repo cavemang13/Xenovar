@@ -3,7 +3,7 @@ import { Camera } from "./camera.js";
 import { World } from "./world.js";
 import { ResourceManager } from "./resourceManager.js";
 import { Inventory } from "./inventory.js";
-import { HiveCore } from "./hiveCore.js";
+import { Xenovar } from "./xenovar.js";
 
 export class Game {
 
@@ -15,7 +15,7 @@ export class Game {
         this.player = new Player();
         this.camera = new Camera(canvas);
         this.world = new World();
-        this.hiveCore = new HiveCore();
+        this.xenovar = new Xenovar();
 
         this.inventory = new Inventory();
         this.resourceManager = new ResourceManager(this.inventory);
@@ -26,15 +26,15 @@ export class Game {
 
         this.player.update(keys);
         this.camera.update(this.player);
-        this.hiveCore.update();
+        this.xenovar.update();
 
         this.resourceManager.update(this.player, keys);
 
-        // Deposit carried resource into the Hive
-        if (this.player.carrying && this.hiveCore.isNear(this.player)) {
+        // Deposit carried resource into the Xenovar
+        if (this.player.carrying && this.xenovar.isNear(this.player)) {
 
             this.inventory.add(this.player.carrying);
-            this.hiveCore.addXP(1);
+            this.xenovar.addXP(1);
             this.player.carrying = null;
 
         }
@@ -53,7 +53,7 @@ export class Game {
         );
 
         this.world.draw(this.ctx);
-        this.hiveCore.draw(this.ctx);
+        this.xenovar.draw(this.ctx);
         this.resourceManager.draw(this.ctx);
         this.player.draw(this.ctx);
 
@@ -69,13 +69,14 @@ export class Game {
         this.ctx.font = "20px Arial";
 
         // HUD
-        this.ctx.fillText("Hive Core Prototype", 20, 30);
+        this.ctx.fillText("XENOVAR", 20, 30);
+
         this.ctx.fillText(`Biomass: ${this.inventory.biomass}`, 20, 70);
         this.ctx.fillText(`Crystal: ${this.inventory.crystal}`, 20, 100);
         this.ctx.fillText(`Energy: ${this.inventory.energy}`, 20, 130);
 
-        this.ctx.fillText(`Hive Level: ${this.hiveCore.level}`, 20, 170);
-        this.ctx.fillText(`Hive XP: ${this.hiveCore.xp}/${this.hiveCore.maxXP}`, 20, 200);
+        this.ctx.fillText(`Hive Level: ${this.xenovar.level}`, 20, 170);
+        this.ctx.fillText(`Hive XP: ${this.xenovar.xp}/${this.xenovar.maxXP}`, 20, 200);
 
         // Collect prompt
         for (const resource of this.resourceManager.resources) {
@@ -94,13 +95,11 @@ export class Game {
                 );
 
                 break;
-
             }
-
         }
 
         // Deposit prompt
-        if (this.player.carrying && this.hiveCore.isNear(this.player)) {
+        if (this.player.carrying && this.xenovar.isNear(this.player)) {
 
             this.ctx.fillStyle = "#8bffb4";
             this.ctx.font = "24px Arial";
